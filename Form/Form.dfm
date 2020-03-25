@@ -15,6 +15,8 @@ object MainForm: TMainForm
   OnCreate = FormCreate
   OnMouseMove = FormMouseMove
   OnMouseUp = FormMouseUp
+  OnMouseWheelDown = FormMouseWheelDown
+  OnMouseWheelUp = FormMouseWheelUp
   OnResize = repaint1Click
   PixelsPerInch = 96
   TextHeight = 13
@@ -23,13 +25,13 @@ object MainForm: TMainForm
     Top = 0
     Width = 260
     Height = 456
-    VertScrollBar.Position = 231
+    VertScrollBar.Position = 871
     Align = alLeft
     TabOrder = 0
     object Image3: TImage
       Tag = 4
       Left = 0
-      Top = 322
+      Top = -589
       Width = 239
       Height = 153
       Hint = #1041#1083#1086#1082' '#1082#1086#1084#1072#1085#1076#1099', '#1087#1088#1086#1094#1077#1089#1089#1072', '#1076#1077#1081#1089#1090#1074#1080#1103
@@ -73,13 +75,13 @@ object MainForm: TMainForm
       ShowHint = True
       Stretch = True
       OnClick = Image7Click
-      ExplicitLeft = -3
-      ExplicitTop = 58
+      ExplicitLeft = 3
+      ExplicitTop = -29
     end
     object Image4: TImage
       Tag = 5
       Left = 0
-      Top = 475
+      Top = -33
       Width = 239
       Height = 176
       Hint = #1057#1086#1077#1076#1080#1085#1080#1090#1077#1083#1100
@@ -205,7 +207,7 @@ object MainForm: TMainForm
     object Image5: TImage
       Tag = 6
       Left = 0
-      Top = 651
+      Top = -871
       Width = 239
       Height = 132
       Hint = #1058#1077#1088#1084#1080#1085#1072#1090#1086#1088' '#1080#1083#1080' '#1073#1083#1086#1082' '#1085#1072#1095#1072#1083#1086'-'#1082#1086#1085#1077#1094
@@ -295,13 +297,13 @@ object MainForm: TMainForm
       ShowHint = True
       Stretch = True
       OnClick = Image7Click
-      ExplicitLeft = -3
-      ExplicitTop = 224
+      ExplicitLeft = 3
+      ExplicitTop = -2
     end
     object Image6: TImage
       Tag = 8
       Left = 0
-      Top = 938
+      Top = 298
       Width = 239
       Height = 154
       Hint = #1055#1088#1077#1076#1086#1087#1088#1077#1076#1077#1083#1077#1085#1085#1099#1081' '#1087#1088#1086#1094#1077#1089#1089
@@ -352,7 +354,7 @@ object MainForm: TMainForm
     object Image7: TImage
       Tag = 3
       Left = 0
-      Top = 197
+      Top = -158
       Width = 239
       Height = 125
       Hint = #1041#1083#1086#1082' '#1083#1086#1075#1080#1095#1077#1089#1082#1086#1075#1086' '#1091#1089#1083#1086#1074#1080#1103
@@ -404,7 +406,7 @@ object MainForm: TMainForm
     end
     object Image8: TImage
       Left = 0
-      Top = -231
+      Top = -739
       Width = 239
       Height = 150
       Hint = #1041#1083#1086#1082' '#1074#1074#1086#1076#1072'-'#1074#1099#1074#1086#1076#1072' '#1076#1072#1085#1085#1099#1093
@@ -504,7 +506,7 @@ object MainForm: TMainForm
     object Image1: TImage
       Tag = 7
       Left = 0
-      Top = 783
+      Top = 143
       Width = 239
       Height = 155
       Hint = #1041#1083#1086#1082' '#1094#1080#1082#1083#1072' '#1089#1086' '#1089#1095#1077#1090#1095#1080#1082#1086#1084
@@ -621,7 +623,7 @@ object MainForm: TMainForm
     object Image2: TImage
       Tag = 1
       Left = 0
-      Top = -81
+      Top = -436
       Width = 239
       Height = 146
       Hint = #1041#1083#1086#1082' '#1083#1086#1075#1080#1095#1077#1089#1082#1086#1075#1086' '#1091#1089#1083#1086#1074#1080#1103
@@ -724,7 +726,7 @@ object MainForm: TMainForm
     object Image9: TImage
       Tag = 2
       Left = 0
-      Top = 65
+      Top = -290
       Width = 239
       Height = 132
       Hint = #1041#1083#1086#1082' '#1083#1086#1075#1080#1095#1077#1089#1082#1086#1075#1086' '#1091#1089#1083#1086#1074#1080#1103
@@ -796,6 +798,7 @@ object MainForm: TMainForm
       Top = 19
       Width = 215
       Height = 158
+      TabStop = False
       Color = clBlack
       DoubleBuffered = False
       FixedColor = clBackground
@@ -807,6 +810,8 @@ object MainForm: TMainForm
         'Y='
         'Text=')
       TabOrder = 0
+      OnMouseWheelDown = FormMouseWheelDown
+      OnMouseWheelUp = FormMouseWheelUp
       OnStringsChange = ValuesListStringsChange
       ColWidths = (
         123

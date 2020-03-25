@@ -111,7 +111,6 @@ void __fastcall TMainForm::FormMouseUp(TObject *Sender, TMouseButton Button, TSh
 																			  Field.ConnectorsOfField[Field.ConnectorsOfField.size()-1].EndPoint->X,
 																			  Field.ConnectorsOfField[Field.ConnectorsOfField.size()-1].EndPoint->Y,
 																			  Field.ShapesOfField);
-
 			for (int i = 0; i < Field.ConnectorsOfField.size(); i++) {
 				if (Field.ConnectorsOfField[i].ConnectorWay.size() == 0) {
 					Field.ConnectorsOfField.erase(Field.ConnectorsOfField.begin()+i);
@@ -184,7 +183,7 @@ void __fastcall TMainForm::MoveClick(TObject *Sender)
 	PosChoice = false;
 	ShapeChoice = false;
 	StartChoice = false;
-	Status->Caption = "Press on element to choose";
+	Status->Caption = "Press on field to move chosen element";
 }
 //---------------------------------------------------------------------------
 
@@ -261,4 +260,37 @@ void __fastcall TMainForm::ValuesListStringsChange(TObject *Sender)
 	Field.Repaint();
 }
 //---------------------------------------------------------------------------
+
+
+
+
+
+void __fastcall TMainForm::FormMouseWheelDown(TObject *Sender, TShiftState Shift,
+          TPoint &MousePos, bool &Handled)
+{
+	for (int i = 0; i < Field.ShapesOfField.size(); i++) {
+		Field.ShapesOfField[i].Selected = false;
+		Field.ShapesOfField[i].Move(Field.ShapesOfField[i].XPos,Field.ShapesOfField[i].YPos+10);
+	}
+	ValuesList->Cells[1][1] = "";
+	ValuesList->Cells[1][2] = "";
+	ValuesList->Cells[1][3] = "";
+	Field.Repaint();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::FormMouseWheelUp(TObject *Sender, TShiftState Shift, TPoint &MousePos,
+          bool &Handled)
+{
+	for (int i = 0; i < Field.ShapesOfField.size(); i++) {
+		Field.ShapesOfField[i].Selected = false;
+		Field.ShapesOfField[i].Move(Field.ShapesOfField[i].XPos,Field.ShapesOfField[i].YPos-10);
+	}
+	ValuesList->Cells[1][1] = "";
+	ValuesList->Cells[1][2] = "";
+	ValuesList->Cells[1][3] = "";
+	Field.Repaint();
+}
+//---------------------------------------------------------------------------
+
 

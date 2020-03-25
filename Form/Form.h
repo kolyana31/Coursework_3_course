@@ -52,6 +52,10 @@ __published:	// IDE-managed Components
 	void __fastcall DeleteConnectionClick(TObject *Sender);
 	void __fastcall FormMouseMove(TObject *Sender, TShiftState Shift, int X, int Y);
 	void __fastcall ValuesListStringsChange(TObject *Sender);
+	void __fastcall FormMouseWheelDown(TObject *Sender, TShiftState Shift, TPoint &MousePos,
+          bool &Handled);
+	void __fastcall FormMouseWheelUp(TObject *Sender, TShiftState Shift, TPoint &MousePos,
+          bool &Handled);
 
 
 private:	// User declarations
