@@ -3,7 +3,7 @@
 
 
 
-void WorkingGrid::AddShape(ShapeS AddableObject){
+void WorkingGrid::AddShape(ShapeS* AddableObject){
 	ShapesOfField.push_back(AddableObject);
 	Repaint();
 }
@@ -18,7 +18,7 @@ void WorkingGrid::Repaint(){
 	Obj::device->FillRect(Obj::device->ClipRect);
 	Obj::device->Brush->Color = clWebCrimson;
 	for (int i = 0; i < ShapesOfField.size(); i++) {
-		ShapesOfField[i].DrawObj(ShapesOfField[i].Type, ShapesOfField[i].XPos, ShapesOfField[i].YPos);
+		ShapesOfField[i]->DrawObj(ShapesOfField[i]->Type, ShapesOfField[i]->XPos, ShapesOfField[i]->YPos);
 	}
 	for (int i = 0; i < ConnectorsOfField.size(); i++) {
 		ConnectorsOfField[i].DrawObj(ConnectorsOfField[i].StartPoint->X,
@@ -29,79 +29,79 @@ void WorkingGrid::Repaint(){
 	}
 }
 
-ShapeS WorkingGrid::Choose(int XChoice, int YChoice){
+ShapeS* WorkingGrid::Choose(int XChoice, int YChoice){
 	for (int i = 0; i < ShapesOfField.size(); i++) {
-		ShapesOfField[i].Selected = false;
+		ShapesOfField[i]->Selected = false;
 	}
 	for (int i = ShapesOfField.size()-1; i >= 0; i--) {
-		if (XChoice > ShapesOfField[i].XPos && XChoice < ShapesOfField[i].Wight &&
-			YChoice > ShapesOfField[i].YPos && YChoice < ShapesOfField[i].Height)
+		if (XChoice > ShapesOfField[i]->XPos && XChoice < ShapesOfField[i]->Wight &&
+			YChoice > ShapesOfField[i]->YPos && YChoice < ShapesOfField[i]->Height)
 		{
-			ShapesOfField[i].Selected = true;
+			ShapesOfField[i]->Selected = true;
 			return ShapesOfField[i];
 		}
 	}
-	ShapeS Nothing(0,0,-1);
+	ShapeS* Nothing = new ShapeS(0,0,-1);
 	return Nothing;
 }
 
 TPoint* WorkingGrid::ChooseOPoint(int XChoice, int YChoice){
 	TPoint* Point = new TPoint; Point->X = 0; Point->Y = 0;
 	for (int i = ShapesOfField.size()-1; i >= 0; i--) {
-		if (XChoice > ShapesOfField[i].XPos && XChoice < ShapesOfField[i].Wight &&
-			YChoice > ShapesOfField[i].YPos && YChoice < ShapesOfField[i].Height)
+		if (XChoice > ShapesOfField[i]->XPos && XChoice < ShapesOfField[i]->Wight &&
+			YChoice > ShapesOfField[i]->YPos && YChoice < ShapesOfField[i]->Height)
 		{
-		switch (ShapesOfField[i].Type) {
+		switch (ShapesOfField[i]->Type) {
 			case 1:
-				if (XChoice < (ShapesOfField[i].XPos+ShapesOfField[i].Wight)/2) {
+				if (XChoice < (ShapesOfField[i]->XPos+ShapesOfField[i]->Wight)/2) {
 					for (int d = 0; d < ConnectorsOfField.size(); d++) {
-						if (ConnectorsOfField[d].StartPoint->X == ShapesOfField[i].ExitPoints[0]->X &&
-							ConnectorsOfField[d].StartPoint->Y == ShapesOfField[i].ExitPoints[0]->Y) {
+						if (ConnectorsOfField[d].StartPoint->X == ShapesOfField[i]->ExitPoints[0]->X &&
+							ConnectorsOfField[d].StartPoint->Y == ShapesOfField[i]->ExitPoints[0]->Y) {
 							return Point;
 						}
 					}
-					return ShapesOfField[i].ExitPoints[0];
+					return ShapesOfField[i]->ExitPoints[0];
 				}
 				else{
 					for (int d = 0; d < ConnectorsOfField.size(); d++) {
-						if (ConnectorsOfField[d].StartPoint->X == ShapesOfField[i].ExitPoints[1]->X &&
-							ConnectorsOfField[d].StartPoint->Y == ShapesOfField[i].ExitPoints[1]->Y) {
+						if (ConnectorsOfField[d].StartPoint->X == ShapesOfField[i]->ExitPoints[1]->X &&
+							ConnectorsOfField[d].StartPoint->Y == ShapesOfField[i]->ExitPoints[1]->Y) {
 							return Point;
 						}
 					 }
-					return ShapesOfField[i].ExitPoints[1];
+					return ShapesOfField[i]->ExitPoints[1];
 				}
 				break;
 			case 7:
-				if (XChoice > ShapesOfField[i].Wight-50) {
+				if (XChoice > ShapesOfField[i]->Wight-50) {
 					for (int d = 0; d < ConnectorsOfField.size(); d++) {
-						if (ConnectorsOfField[d].StartPoint->X == ShapesOfField[i].ExitPoints[0]->X &&
-							ConnectorsOfField[d].StartPoint->Y == ShapesOfField[i].ExitPoints[0]->Y) {
+						if (ConnectorsOfField[d].StartPoint->X == ShapesOfField[i]->ExitPoints[0]->X &&
+							ConnectorsOfField[d].StartPoint->Y == ShapesOfField[i]->ExitPoints[0]->Y) {
 							return Point;
 						}
 					}
-					return ShapesOfField[i].ExitPoints[0];
+					return ShapesOfField[i]->ExitPoints[0];
 				}
 				else{
 					for (int d = 0; d < ConnectorsOfField.size(); d++) {
-						if (ConnectorsOfField[d].StartPoint->X == ShapesOfField[i].ExitPoints[1]->X &&
-							ConnectorsOfField[d].StartPoint->Y == ShapesOfField[i].ExitPoints[1]->Y) {
+						if (ConnectorsOfField[d].StartPoint->X == ShapesOfField[i]->ExitPoints[1]->X &&
+							ConnectorsOfField[d].StartPoint->Y == ShapesOfField[i]->ExitPoints[1]->Y) {
 							return Point;
 						}
 					}
-				   return ShapesOfField[i].ExitPoints[1];
+				   return ShapesOfField[i]->ExitPoints[1];
 				}
 				break;
 			default:
-					for (int j = 0; j < ShapesOfField[i].ExitPoints.size(); j++) {
+					for (int j = 0; j < ShapesOfField[i]->ExitPoints.size(); j++) {
 						 for (int d = 0; d < ConnectorsOfField.size(); d++) {
-							if (ConnectorsOfField[d].StartPoint->X == ShapesOfField[i].ExitPoints[j]->X &&
-								ConnectorsOfField[d].StartPoint->Y == ShapesOfField[i].ExitPoints[j]->Y) {
+							if (ConnectorsOfField[d].StartPoint->X == ShapesOfField[i]->ExitPoints[j]->X &&
+								ConnectorsOfField[d].StartPoint->Y == ShapesOfField[i]->ExitPoints[j]->Y) {
 								return Point;
 							}
 						 }
 					}
-					return ShapesOfField[i].ExitPoints[ShapesOfField[i].EnterPoints.size()-1];
+					return ShapesOfField[i]->ExitPoints[ShapesOfField[i]->EnterPoints.size()-1];
 				break;
 			}
 		}
@@ -112,20 +112,20 @@ TPoint* WorkingGrid::ChooseOPoint(int XChoice, int YChoice){
 TPoint* WorkingGrid::ChooseIPoint(int XChoice, int YChoice){
 	TPoint* Point = new TPoint;Point->X = 0; Point->Y = 0;
 	for (int i = ShapesOfField.size()-1; i >= 0; i--) {
-		if (XChoice > ShapesOfField[i].XPos && XChoice < ShapesOfField[i].Wight &&
-			YChoice > ShapesOfField[i].YPos && YChoice < ShapesOfField[i].Height)
+		if (XChoice > ShapesOfField[i]->XPos && XChoice < ShapesOfField[i]->Wight &&
+			YChoice > ShapesOfField[i]->YPos && YChoice < ShapesOfField[i]->Height)
 		{
-			switch (ShapesOfField[i].Type) {
+			switch (ShapesOfField[i]->Type) {
 			case 7:
-					if (XChoice > ShapesOfField[i].XPos+50) {
-							return ShapesOfField[i].EnterPoints[0];
+					if (XChoice > ShapesOfField[i]->XPos+50) {
+							return ShapesOfField[i]->EnterPoints[0];
 					}
 					else{
-							return ShapesOfField[i].EnterPoints[1];
+							return ShapesOfField[i]->EnterPoints[1];
 					}
 				break;
 			default:
-				return ShapesOfField[i].EnterPoints[ShapesOfField[i].EnterPoints.size()-1];
+				return ShapesOfField[i]->EnterPoints[ShapesOfField[i]->EnterPoints.size()-1];
 				break;
 			}
 		}
@@ -135,11 +135,11 @@ TPoint* WorkingGrid::ChooseIPoint(int XChoice, int YChoice){
 
 void WorkingGrid::DeleteElements(){
 	for (int i = 0; i < ShapesOfField.size(); i++) {
-		if(ShapesOfField[i].Selected){
-			for (int j = 0; j < ShapesOfField[i].EnterPoints.size(); j++) {
+		if(ShapesOfField[i]->Selected){
+			for (int j = 0; j < ShapesOfField[i]->EnterPoints.size(); j++) {
 				for (int k = 0; k < ConnectorsOfField.size(); k++) {
-					if (ShapesOfField[i].EnterPoints[j]->X == ConnectorsOfField[k].EndPoint->X &&
-						ShapesOfField[i].EnterPoints[j]->Y == ConnectorsOfField[k].EndPoint->Y)
+					if (ShapesOfField[i]->EnterPoints[j]->X == ConnectorsOfField[k].EndPoint->X &&
+						ShapesOfField[i]->EnterPoints[j]->Y == ConnectorsOfField[k].EndPoint->Y)
 					{
                     	ConnectorsOfField.erase(ConnectorsOfField.begin()+k);
 					}
@@ -147,10 +147,10 @@ void WorkingGrid::DeleteElements(){
 
 			}
 
-			for (int j = 0; j < ShapesOfField[i].ExitPoints.size(); j++) {
+			for (int j = 0; j < ShapesOfField[i]->ExitPoints.size(); j++) {
 				for (int k = 0; k < ConnectorsOfField.size(); k++) {
-					if (ShapesOfField[i].ExitPoints[j]->X == ConnectorsOfField[k].StartPoint->X &&
-						ShapesOfField[i].ExitPoints[j]->Y == ConnectorsOfField[k].StartPoint->Y)
+					if (ShapesOfField[i]->ExitPoints[j]->X == ConnectorsOfField[k].StartPoint->X &&
+						ShapesOfField[i]->ExitPoints[j]->Y == ConnectorsOfField[k].StartPoint->Y)
 					{
                     	ConnectorsOfField.erase(ConnectorsOfField.begin()+k);
 					}
@@ -198,12 +198,12 @@ void WorkingGrid::GenerateGrid(int X,int Y,int W,int H){
 void WorkingGrid::GridSetting(){
 	for (int j = 0; j < ShapesOfField.size(); j++) {
 		for (int i = 0; i < GridCord.size(); i++) {
-			if (ShapesOfField[j].XPos > GridCord[i].X && ShapesOfField[j].XPos < GridCord[i].X + 15 &&
-				ShapesOfField[j].YPos > GridCord[i].Y && ShapesOfField[j].YPos < GridCord[i].Y + 15) {
+			if (ShapesOfField[j]->XPos > GridCord[i].X && ShapesOfField[j]->XPos < GridCord[i].X + 15 &&
+				ShapesOfField[j]->YPos > GridCord[i].Y && ShapesOfField[j]->YPos < GridCord[i].Y + 15) {
 
-				ShapesOfField[j].Move(GridCord[i].X,GridCord[i].Y);
-				ShapesOfField[j].XPos = GridCord[i].X;
-				ShapesOfField[j].YPos = GridCord[i].Y;
+				ShapesOfField[j]->Move(GridCord[i].X,GridCord[i].Y);
+				ShapesOfField[j]->XPos = GridCord[i].X;
+				ShapesOfField[j]->YPos = GridCord[i].Y;
 
 				continue;
 			}

@@ -7,8 +7,7 @@ void Obj::Hide(){};
 
 void Obj::DrawObj(int Value,int X,int Y){};
 
-void ShapeS::DrawObj(int Type,int X,int Y){
-
+void IOShape::DrawObj(int Type,int X,int Y){
 	device->Pen->Width = 3;
 	device->Brush->Color = clWebCrimson;
 	device->Font->Size = 10;
@@ -17,136 +16,17 @@ void ShapeS::DrawObj(int Type,int X,int Y){
 	TPoint* Value3 = new TPoint;
 	TPoint* Value4 = new TPoint;
 
-	switch (Type) {
-	case 0:
-		device->MoveTo(X,Y+40);
-		device->LineTo(X+30,Y);
-		device->LineTo(X+200,Y);
-		device->LineTo(X+170,Y+40);
-		device->LineTo(X,Y+40);
-		Wight = X+200;
-		Height = Y+40;
-		device->FloodFill((X+Wight)/2,(Y+Height)/2,16777215,0);
-		device->FloodFill(X+30,(Y+Height)/2,16777215,0);
-		device->TextRect(Rect(X+35,Y+10,Wight-35,Height-10),X+35,Y+10,Text);
-		break;
-	case 1:
-		device->MoveTo(X,Y+40);
-		device->LineTo(X+100,Y);
-		device->LineTo(X+200,Y+40);
-		device->LineTo(X+100,Y+80);
-		device->LineTo(X,Y+40);
-		device->MoveTo(0,0);
-		Wight = X+200;
-		Height = Y+80;
-		device->Brush->Color = clWhite;
-		device->TextOutW(X-25,Y+25,"True");
-		device->TextOutW(Wight+5,Y+25,"False");
-		device->Brush->Color = clWebCrimson;
-		device->FloodFill((X+Wight)/2,(Y+Height)/2,16777215,0);
-		device->FloodFill(X+10,(Y+Height)/2,16777215,0);
-		device->TextRect(Rect(X+40,Y+25,Wight-40,Height-25),X+40,Y+30,Text);
+	device->MoveTo(X,Y+40);
+	device->LineTo(X+30,Y);
+	device->LineTo(X+200,Y);
+	device->LineTo(X+170,Y+40);
+	device->LineTo(X,Y+40);
+	Wight = X+200;
+	Height = Y+40;
+	device->FloodFill((X+Wight)/2,(Y+Height)/2,16777215,0);
+	device->FloodFill(X+30,(Y+Height)/2,16777215,0);
+	device->TextRect(Rect(X+35,Y+10,Wight-35,Height-10),X+35,Y+10,Text);
 
-		Value->X = (X+Wight)/2;
-		Value->Y = Y;
-		EnterPoints.push_back(Value);
-		Value2->X = X;
-		Value2->Y = (Y+Height)/2;
-		ExitPoints.push_back(Value2);
-		Value3->X = Wight;
-		Value3->Y = (Y+Height)/2;
-		ExitPoints.push_back(Value3);
-		break;
-	case 2:
-		device->MoveTo(X,Y+40);
-		device->LineTo(X,Y+15);
-		device->LineTo(X+15,Y);
-		device->LineTo(X+185,Y);
-		device->LineTo(X+200,Y+15);
-		device->LineTo(X+200,Y+40);
-		device->LineTo(X,Y+40);
-		Wight = X+200;
-		Height = Y+40;
-		device->FloodFill((X+Wight)/2,(Y+Height)/2,16777215,0);
-		device->FloodFill(X+4,Y+15,16777215,0);
-		device->TextRect(Rect(X+5,Y+15,Wight-15,Height-5),X+5,Y+15,Text);
-		break;
-	case 3:
-		device->MoveTo(X,Y);
-		device->LineTo(X+200,Y);
-		device->LineTo(X+200,Y+25);
-		device->LineTo(X+185,Y+40);
-		device->LineTo(X+15,Y+40);
-		device->LineTo(X,Y+25);
-		device->LineTo(X,Y);
-		Wight = X+200;
-		Height = Y+40;
-		device->FloodFill((X+Wight)/2,(Y+Height)/2,16777215,0);
-		device->FloodFill(X+10,Y+10,16777215,0);
-		device->TextRect(Rect(X+5,Y+5,Wight-5,Height-15),X+5,Y+5,Text);
-		break;
-	case 4:
-		device->Rectangle(X,Y,X+200,Y+40);
-		Wight = X+200;
-		Height = Y+40;
-		device->TextRect(Rect(X+5,Y+5,Wight-5,Height-5),X+5,Y+10,Text);
-		break;
-	case 5:
-		device->Ellipse(X,Y,X+80,Y+80);
-		Wight = X+80;
-		Height = Y+80;
-		device->TextRect(Rect(X+5,Y+27,Wight-5,Height-27),X+5,Y+35,Text);
-		break;
-	case 6:
-		device->RoundRect(X,Y,X+200,Y+40,80,80);
-		Wight = X+200;
-		Height = Y+40;
-		device->TextRect(Rect(X+5,Y+10,Wight-5,Height-10),X+5,Y+10,Text);
-		break;
-	case 7:
-		device->MoveTo(X,Y+20);
-		device->LineTo(X+15,Y);
-		device->LineTo(X+185,Y);
-		device->LineTo(X+200,Y+20);
-		device->LineTo(X+185,Y+40);
-		device->LineTo(X+15,Y+40);
-		device->LineTo(X,Y+20);
-		device->MoveTo(0,0);
-		Wight = X+200;
-		Height = Y+40;
-		device->FloodFill(X+17,Y+10,16777215,0);
-		device->FloodFill((Wight+X)/2,Y+10,16777215,0);
-		device->FloodFill((Wight+X)/2,Height-10,16777215,0);
-		device->TextRect(Rect(X+15,Y+10,Wight-15,Height-10),X+15,Y+10,Text);
-
-		Value->X = (X+Wight)/2;
-		Value->Y = Y;
-		EnterPoints.push_back(Value);
-		Value2->X = X;
-		Value2->Y = (Y+Height)/2;
-		EnterPoints.push_back(Value2);
-		Value3->X = Wight;
-		Value3->Y = (Y+Height)/2;
-		ExitPoints.push_back(Value3);
-		Value4->X = (X+Wight)/2;
-		Value4->Y = Height;
-		ExitPoints.push_back(Value4);
-		break;
-	case 8:
-		device->Rectangle(X,Y,X+200,Y+40);
-		device->MoveTo(X+15,Y);
-		device->LineTo(X+15,Y+40);
-		device->MoveTo(X+185,Y);
-		device->LineTo(X+185,Y+40);
-		device->MoveTo(0,0);
-		Wight = X+200;
-		Height = Y+40;
-		device->FloodFill((X+Wight)/2,(Y+Height)/2,16777215,0);
-		device->TextRect(Rect(X+20,Y+5,Wight-20,Height-5),X+20,Y+10,Text);
-		break;
-	default:
-		;
-	}
 	if(Type == 0 || (Type >=2 && Type<=6) || Type == 8){
 		Value->X = (X+Wight)/2;
 		Value->Y = Y;
@@ -157,7 +37,245 @@ void ShapeS::DrawObj(int Type,int X,int Y){
 	}
 };
 
+void IFShape::DrawObj(int Type,int X,int Y){
+	device->Pen->Width = 3;
+	device->Brush->Color = clWebCrimson;
+	device->Font->Size = 10;
+	TPoint* Value = new TPoint;
+	TPoint* Value2 = new TPoint;
+	TPoint* Value3 = new TPoint;
+	TPoint* Value4 = new TPoint;
 
+	device->MoveTo(X,Y+40);
+	device->LineTo(X+100,Y);
+	device->LineTo(X+200,Y+40);
+	device->LineTo(X+100,Y+80);
+	device->LineTo(X,Y+40);
+	device->MoveTo(0,0);
+	Wight = X+200;
+	Height = Y+80;
+	device->Brush->Color = clWhite;
+	device->TextOutW(X-25,Y+25,"True");
+	device->TextOutW(Wight+5,Y+25,"False");
+	device->Brush->Color = clWebCrimson;
+	device->FloodFill((X+Wight)/2,(Y+Height)/2,16777215,0);
+	device->FloodFill(X+10,(Y+Height)/2,16777215,0);
+	device->TextRect(Rect(X+40,Y+25,Wight-40,Height-25),X+40,Y+30,Text);
+	Value->X = (X+Wight)/2;
+	Value->Y = Y;
+
+	EnterPoints.push_back(Value);
+	Value2->X = X;
+	Value2->Y = (Y+Height)/2;
+	ExitPoints.push_back(Value2);
+	Value3->X = Wight;
+	Value3->Y = (Y+Height)/2;
+	ExitPoints.push_back(Value3);
+}
+
+void LogicInS::DrawObj(int Type,int X,int Y){
+	device->Pen->Width = 3;
+	device->Brush->Color = clWebCrimson;
+	device->Font->Size = 10;
+	TPoint* Value = new TPoint;
+	TPoint* Value2 = new TPoint;
+	TPoint* Value3 = new TPoint;
+	TPoint* Value4 = new TPoint;
+
+	device->MoveTo(X,Y+40);
+	device->LineTo(X,Y+15);
+	device->LineTo(X+15,Y);
+	device->LineTo(X+185,Y);
+	device->LineTo(X+200,Y+15);
+	device->LineTo(X+200,Y+40);
+	device->LineTo(X,Y+40);
+	Wight = X+200;
+	Height = Y+40;
+	device->FloodFill((X+Wight)/2,(Y+Height)/2,16777215,0);
+	device->FloodFill(X+4,Y+15,16777215,0);
+	device->TextRect(Rect(X+5,Y+15,Wight-15,Height-5),X+5,Y+15,Text);
+
+	if(Type == 0 || (Type >=2 && Type<=6) || Type == 8){
+		Value->X = (X+Wight)/2;
+		Value->Y = Y;
+		EnterPoints.push_back(Value);
+		Value2->X = (X+Wight)/2;
+		Value2->Y = Height;
+		ExitPoints.push_back(Value2);
+	}
+}
+
+void LogicOutS::DrawObj(int Type,int X,int Y){
+	device->Pen->Width = 3;
+	device->Brush->Color = clWebCrimson;
+	device->Font->Size = 10;
+	TPoint* Value = new TPoint;
+	TPoint* Value2 = new TPoint;
+	TPoint* Value3 = new TPoint;
+	TPoint* Value4 = new TPoint;
+
+	device->MoveTo(X,Y);
+	device->LineTo(X+200,Y);
+	device->LineTo(X+200,Y+25);
+	device->LineTo(X+185,Y+40);
+	device->LineTo(X+15,Y+40);
+	device->LineTo(X,Y+25);
+	device->LineTo(X,Y);
+	Wight = X+200;
+	Height = Y+40;
+	device->FloodFill((X+Wight)/2,(Y+Height)/2,16777215,0);
+	device->FloodFill(X+10,Y+10,16777215,0);
+	device->TextRect(Rect(X+5,Y+5,Wight-5,Height-15),X+5,Y+5,Text);
+
+	if(Type == 0 || (Type >=2 && Type<=6) || Type == 8){
+		Value->X = (X+Wight)/2;
+		Value->Y = Y;
+		EnterPoints.push_back(Value);
+		Value2->X = (X+Wight)/2;
+		Value2->Y = Height;
+		ExitPoints.push_back(Value2);
+	}
+}
+
+void ComProcS::DrawObj(int Type,int X,int Y){
+	device->Pen->Width = 3;
+	device->Brush->Color = clWebCrimson;
+	device->Font->Size = 10;
+	TPoint* Value = new TPoint;
+	TPoint* Value2 = new TPoint;
+	TPoint* Value3 = new TPoint;
+	TPoint* Value4 = new TPoint;
+
+	device->Rectangle(X,Y,X+200,Y+40);
+	Wight = X+200;
+	Height = Y+40;
+	device->TextRect(Rect(X+5,Y+5,Wight-5,Height-5),X+5,Y+10,Text);
+
+	if(Type == 0 || (Type >=2 && Type<=6) || Type == 8){
+		Value->X = (X+Wight)/2;
+		Value->Y = Y;
+		EnterPoints.push_back(Value);
+		Value2->X = (X+Wight)/2;
+		Value2->Y = Height;
+		ExitPoints.push_back(Value2);
+	}
+}
+
+void ConnectS::DrawObj(int Type,int X,int Y){
+	device->Pen->Width = 3;
+	device->Brush->Color = clWebCrimson;
+	device->Font->Size = 10;
+	TPoint* Value = new TPoint;
+	TPoint* Value2 = new TPoint;
+	TPoint* Value3 = new TPoint;
+	TPoint* Value4 = new TPoint;
+
+	device->Ellipse(X,Y,X+80,Y+80);
+	Wight = X+80;
+	Height = Y+80;
+	device->TextRect(Rect(X+5,Y+27,Wight-5,Height-27),X+5,Y+35,Text);
+
+	if(Type == 0 || (Type >=2 && Type<=6) || Type == 8){
+		Value->X = (X+Wight)/2;
+		Value->Y = Y;
+		EnterPoints.push_back(Value);
+		Value2->X = (X+Wight)/2;
+		Value2->Y = Height;
+		ExitPoints.push_back(Value2);
+	}
+}
+
+void SEShape::DrawObj(int Type,int X,int Y){
+	device->Pen->Width = 3;
+	device->Brush->Color = clWebCrimson;
+	device->Font->Size = 10;
+	TPoint* Value = new TPoint;
+	TPoint* Value2 = new TPoint;
+	TPoint* Value3 = new TPoint;
+	TPoint* Value4 = new TPoint;
+
+	device->RoundRect(X,Y,X+200,Y+40,80,80);
+	Wight = X+200;
+	Height = Y+40;
+	device->TextRect(Rect(X+5,Y+10,Wight-5,Height-10),X+5,Y+10,Text);
+
+   	if(Type == 0 || (Type >=2 && Type<=6) || Type == 8){
+		Value->X = (X+Wight)/2;
+		Value->Y = Y;
+		EnterPoints.push_back(Value);
+		Value2->X = (X+Wight)/2;
+		Value2->Y = Height;
+		ExitPoints.push_back(Value2);
+	}
+}
+
+void CycleShape::DrawObj(int Type,int X,int Y){
+	device->Pen->Width = 3;
+	device->Brush->Color = clWebCrimson;
+	device->Font->Size = 10;
+	TPoint* Value = new TPoint;
+	TPoint* Value2 = new TPoint;
+	TPoint* Value3 = new TPoint;
+	TPoint* Value4 = new TPoint;
+
+	device->MoveTo(X,Y+20);
+	device->LineTo(X+15,Y);
+	device->LineTo(X+185,Y);
+	device->LineTo(X+200,Y+20);
+	device->LineTo(X+185,Y+40);
+	device->LineTo(X+15,Y+40);
+	device->LineTo(X,Y+20);
+	device->MoveTo(0,0);
+	Wight = X+200;
+	Height = Y+40;
+	device->FloodFill(X+17,Y+10,16777215,0);
+	device->FloodFill((Wight+X)/2,Y+10,16777215,0);
+	device->FloodFill((Wight+X)/2,Height-10,16777215,0);
+	device->TextRect(Rect(X+15,Y+10,Wight-15,Height-10),X+15,Y+10,Text);
+
+	Value->X = (X+Wight)/2;
+	Value->Y = Y;
+	EnterPoints.push_back(Value);
+	Value2->X = X;
+	Value2->Y = (Y+Height)/2;
+	EnterPoints.push_back(Value2);
+	Value3->X = Wight;
+	Value3->Y = (Y+Height)/2;
+	ExitPoints.push_back(Value3);
+	Value4->X = (X+Wight)/2;
+	Value4->Y = Height;
+	ExitPoints.push_back(Value4);
+}
+
+void PreProcShape::DrawObj(int Type,int X,int Y){
+	device->Pen->Width = 3;
+	device->Brush->Color = clWebCrimson;
+	device->Font->Size = 10;
+	TPoint* Value = new TPoint;
+	TPoint* Value2 = new TPoint;
+	TPoint* Value3 = new TPoint;
+	TPoint* Value4 = new TPoint;
+
+	device->Rectangle(X,Y,X+200,Y+40);
+	device->MoveTo(X+15,Y);
+	device->LineTo(X+15,Y+40);
+	device->MoveTo(X+185,Y);
+	device->LineTo(X+185,Y+40);
+	device->MoveTo(0,0);
+	Wight = X+200;
+	Height = Y+40;
+	device->FloodFill((X+Wight)/2,(Y+Height)/2,16777215,0);
+	device->TextRect(Rect(X+20,Y+5,Wight-20,Height-5),X+20,Y+10,Text);
+
+	if(Type == 0 || (Type >=2 && Type<=6) || Type == 8){
+		Value->X = (X+Wight)/2;
+		Value->Y = Y;
+		EnterPoints.push_back(Value);
+		Value2->X = (X+Wight)/2;
+		Value2->Y = Height;
+		ExitPoints.push_back(Value2);
+	}
+}
 
 void ShapeS::Move(int X,int Y){
 	for (int i = 0; i < EnterPoints.size(); i++) {
@@ -182,23 +300,23 @@ void ShapeS::Move(int X,int Y){
 	YPos = Y;
 }
 
-void Connectors::DrawObj(int XStart,int YStart,int XEnd,int YEnd,std::vector<ShapeS> ShapeArray){
+void Connectors::DrawObj(int XStart,int YStart,int XEnd,int YEnd,std::vector<ShapeS*> ShapeArray){
 	device->Pen->Width = 1;
 	short int StartType,EndType;
-	ShapeS StartTempControlShape(0,0,0),EndTempControlShape(0,0,0);
+	ShapeS* StartTempControlShape = new ShapeS(0,0,0), *EndTempControlShape = new ShapeS(0,0,0);
 	TPoint EndPoint,PreEndPoint;
 	int MiddleY;
 	ConnectorWay.clear();
 	for (int i = 0; i < ShapeArray.size(); i++) {
-		for (int j = 0; j < ShapeArray[i].ExitPoints.size(); j++) {
-			if(ShapeArray[i].ExitPoints[j]->X == XStart && ShapeArray[i].ExitPoints[j]->Y == YStart){
-				StartType = ShapeArray[i].Type;
+		for (int j = 0; j < ShapeArray[i]->ExitPoints.size(); j++) {
+			if(ShapeArray[i]->ExitPoints[j]->X == XStart && ShapeArray[i]->ExitPoints[j]->Y == YStart){
+				StartType = ShapeArray[i]->Type;
 				StartTempControlShape = ShapeArray[i];
 			}
 		}
-		for (int j = 0; j < ShapeArray[i].EnterPoints.size(); j++) {
-			if(ShapeArray[i].EnterPoints[j]->X == XEnd && ShapeArray[i].EnterPoints[j]->Y == YEnd){
-				EndType = ShapeArray[i].Type;
+		for (int j = 0; j < ShapeArray[i]->EnterPoints.size(); j++) {
+			if(ShapeArray[i]->EnterPoints[j]->X == XEnd && ShapeArray[i]->EnterPoints[j]->Y == YEnd){
+				EndType = ShapeArray[i]->Type;
 				EndTempControlShape =  ShapeArray[i];
 			}
 		}
@@ -206,17 +324,18 @@ void Connectors::DrawObj(int XStart,int YStart,int XEnd,int YEnd,std::vector<Sha
 
 	int MaxWight = 0 , MinX = 100000;
 	for (int i = 0; i < ShapeArray.size(); i++) {
-		if(ShapeArray[i].Wight > MaxWight){
-			MaxWight = ShapeArray[i].Wight;
+		if(ShapeArray[i]->Wight > MaxWight){
+			MaxWight = ShapeArray[i]->Wight;
 		}
-		if(ShapeArray[i].XPos < MinX){
-			MinX = ShapeArray[i].XPos;
+		if(ShapeArray[i]->XPos < MinX){
+			MinX = ShapeArray[i]->XPos;
 		}
 	}
 	ConnectorWay.push_back(TPoint(XStart,YStart));
+	//исходная позиция
 	switch (StartType) {
 		case 1:
-			if (XStart < (StartTempControlShape.XPos + StartTempControlShape.Wight)/2) {
+			if (XStart < (StartTempControlShape->XPos + StartTempControlShape->Wight)/2) {
 
 				if (EndType == 7) {
 					ConnectorWay.push_back(TPoint(MinX-20,YStart));
@@ -229,7 +348,7 @@ void Connectors::DrawObj(int XStart,int YStart,int XEnd,int YEnd,std::vector<Sha
 			else
 			{
 				if (EndType == 7) {
-				   	ConnectorWay.push_back(TPoint(XStart+20,YStart));
+					ConnectorWay.push_back(TPoint(XStart+20,YStart));
 					ConnectorWay.push_back(TPoint(XStart+20,YStart+60));
 					ConnectorWay.push_back(TPoint(MinX-20,YStart+60));
 				}
@@ -239,12 +358,14 @@ void Connectors::DrawObj(int XStart,int YStart,int XEnd,int YEnd,std::vector<Sha
 			}
 			break;
 		case 7:
-			if(XStart > StartTempControlShape.Wight - 50){
+
+			if(XStart > StartTempControlShape->Wight - 50){
 				ConnectorWay.push_back(TPoint(MaxWight+15,YStart));
 			}
 			else{
             	ConnectorWay.push_back(TPoint(XStart,YStart));
 			}
+
 			break;
 	  default:
 			if(EndType == 7 && (YEnd < YStart)){
@@ -258,22 +379,23 @@ void Connectors::DrawObj(int XStart,int YStart,int XEnd,int YEnd,std::vector<Sha
 			break;
 	}
 
+	//конечная
 	switch (EndType) {
 		case 7:
-			if (XEnd == EndTempControlShape.EnterPoints[1]->X && YEnd == EndTempControlShape.EnterPoints[1]->Y && YEnd < YStart) {
+			if (XEnd == EndTempControlShape->EnterPoints[1]->X && YEnd == EndTempControlShape->EnterPoints[1]->Y && YEnd < YStart) {
 				PreEndPoint.X = MinX-20;
 				PreEndPoint.Y = YEnd;
 				ConnectorWay.push_back(PreEndPoint);
 			}
 			else{
 				if(YEnd > YStart){
-                  	ConnectorWay.push_back(TPoint(XEnd,EndTempControlShape.EnterPoints[0]->Y - 10));
+					ConnectorWay.push_back(TPoint(XEnd,EndTempControlShape->EnterPoints[0]->Y - 10));
 				}
 				else{
-					ConnectorWay.push_back(TPoint(MinX-20,EndTempControlShape.EnterPoints[0]->Y - 10));
+					ConnectorWay.push_back(TPoint(MinX-20,EndTempControlShape->EnterPoints[0]->Y - 10));
 				}
 				PreEndPoint.X = XEnd;
-				PreEndPoint.Y = EndTempControlShape.EnterPoints[0]->Y - 10;
+				PreEndPoint.Y = EndTempControlShape->EnterPoints[0]->Y - 10;
 				ConnectorWay.push_back(PreEndPoint);
 
 			}

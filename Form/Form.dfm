@@ -5,6 +5,7 @@ object MainForm: TMainForm
   ClientHeight = 456
   ClientWidth = 1057
   Color = clBtnFace
+  DoubleBuffered = True
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -202,7 +203,7 @@ object MainForm: TMainForm
       Stretch = True
       OnClick = Image7Click
       ExplicitLeft = 3
-      ExplicitTop = 155
+      ExplicitTop = 278
     end
     object Image5: TImage
       Tag = 6
@@ -401,8 +402,8 @@ object MainForm: TMainForm
       ShowHint = True
       Stretch = True
       OnClick = Image7Click
-      ExplicitTop = 181
-      ExplicitWidth = 240
+      ExplicitLeft = -3
+      ExplicitTop = 229
     end
     object Image8: TImage
       Left = 0

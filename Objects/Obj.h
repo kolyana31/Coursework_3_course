@@ -27,20 +27,24 @@ public:
 	virtual void DrawObj(int Value,int X,int Y);
 };
 
-
+//--------------------------------------------------------------------------
 class ShapeS : public Obj
 {
 public:
 	short int EnterExitAmount;
 	bool Selected;
 	short int Type;
+	TColor BorderCl;
+	TColor FillCl;
 	std::vector<TPoint*> EnterPoints;
 	std::vector<TPoint*> ExitPoints;
 	AnsiString Text;
-	void DrawObj(int Value,int X,int Y);
+	virtual void DrawObj(int Value,int X,int Y){};
 	void Move(int XChange, int YChange);
 
 	ShapeS(int X,int Y,short int Tip){
+		BorderCl=clBlack;
+		FillCl=clWebCrimson;
 		XPos = X;
 		YPos = Y;
 		Type = Tip;
@@ -48,14 +52,77 @@ public:
 		Selected = false;
 	}
 };
+//--------------------------------------------------------------------------
+class IOShape: public ShapeS
+{
+public:
+	IOShape(int X,int Y,short int Tip):ShapeS(X,Y,Tip){};
+	void DrawObj(int Value,int X,int Y);
+};
 
+class IFShape: public ShapeS
+{
+public:
+	IFShape(int X,int Y,short int Tip):ShapeS(X,Y,Tip){};
+	void DrawObj(int Value,int X,int Y);
+};
+
+class LogicInS: public ShapeS
+{
+public:
+	LogicInS(int X,int Y,short int Tip):ShapeS(X,Y,Tip){};
+	void DrawObj(int Value,int X,int Y);
+};
+
+class LogicOutS: public ShapeS
+{
+public:
+	LogicOutS(int X,int Y,short int Tip):ShapeS(X,Y,Tip){};
+	void DrawObj(int Value,int X,int Y);
+};
+
+class ComProcS: public ShapeS
+{
+public:
+	ComProcS(int X,int Y,short int Tip):ShapeS(X,Y,Tip){};
+	void DrawObj(int Value,int X,int Y);
+};
+
+class ConnectS: public ShapeS
+{
+public:
+	ConnectS(int X,int Y,short int Tip):ShapeS(X,Y,Tip){};
+	void DrawObj(int Value,int X,int Y);
+};
+
+class SEShape: public ShapeS
+{
+public:
+	SEShape(int X,int Y,short int Tip):ShapeS(X,Y,Tip){};
+	void DrawObj(int Value,int X,int Y);
+};
+
+class CycleShape: public ShapeS
+{
+public:
+	CycleShape(int X,int Y,short int Tip):ShapeS(X,Y,Tip){};
+	void DrawObj(int Value,int X,int Y);
+};
+
+class PreProcShape: public ShapeS
+{
+public:
+	PreProcShape(int X,int Y,short int Tip):ShapeS(X,Y,Tip){};
+	void DrawObj(int Value,int X,int Y);
+};
+//--------------------------------------------------------------------------
 class Connectors : public Obj
 {
 public:
 	TPoint* StartPoint;
 	TPoint* EndPoint;
 	std::vector<TPoint> ConnectorWay;
-	void DrawObj(int XStart,int YStart,int XEnd,int YEnd,std::vector<ShapeS> ShapeArray);
+	void DrawObj(int XStart,int YStart,int XEnd,int YEnd,std::vector<ShapeS*> ShapeArray);
 };
 
 #endif

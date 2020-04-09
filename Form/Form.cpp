@@ -52,31 +52,74 @@ void __fastcall TMainForm::FormMouseUp(TObject *Sender, TMouseButton Button, TSh
           int X, int Y)
 {
 	ShapeS ChosenElem(0,0,-1);
-	if (PosChoice) {
-			ShapeS AddAbleObject(X,Y,TagsChoice);
-			Field.AddShape(AddAbleObject);
-			Field.ShapesOfField[Field.ShapesOfField.size()-1].DrawObj(TagsChoice,X,Y);
-			PosChoice = false;
-			Status->Caption = "Object added";
+		if (PosChoice) {
+			if(TagsChoice == 0){
+				IOShape *AddAbleObject = new IOShape(X,Y,TagsChoice);
+				Field.AddShape(AddAbleObject);
+				Field.ShapesOfField[Field.ShapesOfField.size()-1]->DrawObj(TagsChoice,X,Y);
+		}
+			else if(TagsChoice == 1){
+				IFShape *AddAbleObject = new IFShape(X,Y,TagsChoice);
+				Field.AddShape(AddAbleObject);
+				Field.ShapesOfField[Field.ShapesOfField.size()-1]->DrawObj(TagsChoice,X,Y);
+			}
+			else if(TagsChoice == 2){
+				LogicInS *AddAbleObject = new LogicInS(X,Y,TagsChoice);
+				Field.AddShape(AddAbleObject);
+				Field.ShapesOfField[Field.ShapesOfField.size()-1]->DrawObj(TagsChoice,X,Y);
+			}
+			else if(TagsChoice == 3){
+				LogicOutS *AddAbleObject = new LogicOutS(X,Y,TagsChoice);
+				Field.AddShape(AddAbleObject);
+				Field.ShapesOfField[Field.ShapesOfField.size()-1]->DrawObj(TagsChoice,X,Y);
+			}
+			else if(TagsChoice == 4){
+				ComProcS *AddAbleObject = new ComProcS(X,Y,TagsChoice);
+				Field.AddShape(AddAbleObject);
+				Field.ShapesOfField[Field.ShapesOfField.size()-1]->DrawObj(TagsChoice,X,Y);			}
+			else if(TagsChoice == 5){
+				ConnectS *AddAbleObject = new ConnectS(X,Y,TagsChoice);
+				Field.AddShape(AddAbleObject);
+				Field.ShapesOfField[Field.ShapesOfField.size()-1]->DrawObj(TagsChoice,X,Y);
+			}
+			else if(TagsChoice == 6){
+				SEShape *AddAbleObject = new SEShape(X,Y,TagsChoice);
+				Field.AddShape(AddAbleObject);
+				Field.ShapesOfField[Field.ShapesOfField.size()-1]->DrawObj(TagsChoice,X,Y);
+			}
+			else if(TagsChoice == 7){
+				CycleShape *AddAbleObject = new CycleShape(X,Y,TagsChoice);
+				Field.AddShape(AddAbleObject);
+				Field.ShapesOfField[Field.ShapesOfField.size()-1]->DrawObj(TagsChoice,X,Y);
+			}
+			else if(TagsChoice == 8){
+				PreProcShape *AddAbleObject = new PreProcShape(X,Y,TagsChoice);
+				Field.AddShape(AddAbleObject);
+				Field.ShapesOfField[Field.ShapesOfField.size()-1]->DrawObj(TagsChoice,X,Y);
+			}
+			if(TagsChoice >= 0 && TagsChoice <= 9){
+				PosChoice = false;
+				Status->Caption = "Object added";
+			}
 	}
 	else if (ShapeChoice) {
 		SecondChoice= false;
-		if (Field.Choose(X,Y).Type != -1)
-		{
+		ValuesList->Cells[1][1] = "";
+		ValuesList->Cells[1][2] = "";
+		ValuesList->Cells[1][3] = "";
 
-			   ChosenElem = Field.Choose(X,Y);
-			   if (ChosenElem.XPos == 0) {
+		if (Field.Choose(X,Y)->Type != -1)
+		{
+			   if (Field.Choose(X,Y)->XPos == 0) {
 				  ShapeChoice = false;
 				  Status->Caption = "Object not found";
-				  ValuesList->Cells[1][1] = "";
-				  ValuesList->Cells[1][2] = "";
-				  ValuesList->Cells[1][3] = "";
 				  StartConnect->Enabled = false;
 			   }
 			   else{
-				ValuesList->Cells[1][1] = ChosenElem.XPos;
-				ValuesList->Cells[1][2] = ChosenElem.YPos;
-				ValuesList->Cells[1][3] = ChosenElem.Text;
+				ShapeS* ChosenElem = Field.Choose(X,Y);
+				ValuesList->Cells[1][1] = ChosenElem->XPos;
+				ValuesList->Cells[1][2] = ChosenElem->YPos;
+				ValuesList->Cells[1][3] = ChosenElem->Text;
 				ShapeChoice = false;
 				StartConnect->Enabled = true;
 				Status->Caption = "Object Chosen";
@@ -85,9 +128,6 @@ void __fastcall TMainForm::FormMouseUp(TObject *Sender, TMouseButton Button, TSh
 		else{
 				  ShapeChoice = false;
 				  Status->Caption = "Object not found";
-				  ValuesList->Cells[1][1] = "";
-				  ValuesList->Cells[1][2] = "";
-				  ValuesList->Cells[1][3] = "";
 		}
 	}
 	else if (StartChoice) {  //первый клик
@@ -229,8 +269,8 @@ void __fastcall TMainForm::FormMouseMove(TObject *Sender, TShiftState Shift, int
 	if (Move->Checked && Shift.Contains(ssLeft)) {
 		if (ValuesList->Cells[1][1] != "" && ValuesList->Cells[1][2]!= "") {
 			for (int i = 0; i < Field.ShapesOfField.size(); i++) {
-				if(Field.ShapesOfField[i].Selected == true){
-					Field.ShapesOfField[i].Move(X,Y);
+				if(Field.ShapesOfField[i]->Selected == true){
+					Field.ShapesOfField[i]->Move(X,Y);
 					Field.Repaint();
 
 					ValuesList->Cells[1][1] = X;
@@ -246,13 +286,13 @@ void __fastcall TMainForm::FormMouseMove(TObject *Sender, TShiftState Shift, int
 
 void __fastcall TMainForm::ValuesListStringsChange(TObject *Sender)
 {
-	if (ValuesList->Cells[1][1] != "" && ValuesList->Cells[1][2]!= "") {
+	if (ValuesList->Cells[1][1] != "" && ValuesList->Cells[1][2]!= "" && ValuesList->Cells[1][3]!= "") {
 		for (int i = 0; i < Field.ShapesOfField.size(); i++) {
-			if(Field.ShapesOfField[i].Selected == true){
+			if(Field.ShapesOfField[i]->Selected == true){
 
-				Field.ShapesOfField[i].XPos = ValuesList->Cells[1][1].ToInt();
-				Field.ShapesOfField[i].YPos = ValuesList->Cells[1][2].ToInt();
-				Field.ShapesOfField[i].Text = ValuesList->Cells[1][3];
+				Field.ShapesOfField[i]->XPos = ValuesList->Cells[1][1].ToInt();
+				Field.ShapesOfField[i]->YPos = ValuesList->Cells[1][2].ToInt();
+				Field.ShapesOfField[i]->Text = ValuesList->Cells[1][3];
 				break;
 			}
 		}
@@ -269,8 +309,8 @@ void __fastcall TMainForm::FormMouseWheelDown(TObject *Sender, TShiftState Shift
           TPoint &MousePos, bool &Handled)
 {
 	for (int i = 0; i < Field.ShapesOfField.size(); i++) {
-		Field.ShapesOfField[i].Selected = false;
-		Field.ShapesOfField[i].Move(Field.ShapesOfField[i].XPos,Field.ShapesOfField[i].YPos+10);
+		Field.ShapesOfField[i]->Selected = false;
+		Field.ShapesOfField[i]->Move(Field.ShapesOfField[i]->XPos,Field.ShapesOfField[i]->YPos+10);
 	}
 	ValuesList->Cells[1][1] = "";
 	ValuesList->Cells[1][2] = "";
@@ -283,8 +323,8 @@ void __fastcall TMainForm::FormMouseWheelUp(TObject *Sender, TShiftState Shift, 
           bool &Handled)
 {
 	for (int i = 0; i < Field.ShapesOfField.size(); i++) {
-		Field.ShapesOfField[i].Selected = false;
-		Field.ShapesOfField[i].Move(Field.ShapesOfField[i].XPos,Field.ShapesOfField[i].YPos-10);
+		Field.ShapesOfField[i]->Selected = false;
+		Field.ShapesOfField[i]->Move(Field.ShapesOfField[i]->XPos,Field.ShapesOfField[i]->YPos-10);
 	}
 	ValuesList->Cells[1][1] = "";
 	ValuesList->Cells[1][2] = "";
@@ -292,5 +332,7 @@ void __fastcall TMainForm::FormMouseWheelUp(TObject *Sender, TShiftState Shift, 
 	Field.Repaint();
 }
 //---------------------------------------------------------------------------
+
+
 
 
