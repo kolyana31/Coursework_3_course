@@ -12,6 +12,7 @@
 #include <Vcl.Imaging.pngimage.hpp>
 #include <Vcl.Grids.hpp>
 #include <Vcl.ValEdit.hpp>
+#include <Vcl.Dialogs.hpp>
 //---------------------------------------------------------------------------
 class TMainForm : public TForm
 {
@@ -38,6 +39,10 @@ __published:	// IDE-managed Components
 	TButton *DeleteConnection;
 	TImage *Image2;
 	TImage *Image9;
+	TSaveDialog *SaveDialog1;
+	TOpenDialog *OpenDialog1;
+	TMenuItem *Save1;
+	TMenuItem *Load1;
 	void __fastcall Image7Click(TObject *Sender);
 	void __fastcall FormMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y);
@@ -56,6 +61,8 @@ __published:	// IDE-managed Components
           bool &Handled);
 	void __fastcall FormMouseWheelUp(TObject *Sender, TShiftState Shift, TPoint &MousePos,
           bool &Handled);
+	void __fastcall Save1Click(TObject *Sender);
+	void __fastcall Load1Click(TObject *Sender);
 
 
 private:	// User declarations

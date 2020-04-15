@@ -49,7 +49,7 @@ void __fastcall TMainForm::Image7Click(TObject *Sender)
 
 
 void __fastcall TMainForm::FormMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          int X, int Y)
+		  int X, int Y)
 {
 	ShapeS ChosenElem(0,0,-1);
 		if (PosChoice) {
@@ -104,29 +104,20 @@ void __fastcall TMainForm::FormMouseUp(TObject *Sender, TMouseButton Button, TSh
 	}
 	else if (ShapeChoice) {
 		SecondChoice= false;
+		ShapeChoice = false;
 		ValuesList->Cells[1][1] = "";
 		ValuesList->Cells[1][2] = "";
 		ValuesList->Cells[1][3] = "";
-
-		if (Field.Choose(X,Y)->Type != -1)
+		Field.Choose(X,Y);
+		if (Field.CurId >= 0)
 		{
-			   if (Field.Choose(X,Y)->XPos == 0) {
-				  ShapeChoice = false;
-				  Status->Caption = "Object not found";
-				  StartConnect->Enabled = false;
-			   }
-			   else{
-				ShapeS* ChosenElem = Field.Choose(X,Y);
-				ValuesList->Cells[1][1] = ChosenElem->XPos;
-				ValuesList->Cells[1][2] = ChosenElem->YPos;
-				ValuesList->Cells[1][3] = ChosenElem->Text;
-				ShapeChoice = false;
+				ValuesList->Cells[1][1] = Field.ShapesOfField[Field.CurId]->XPos;
+				ValuesList->Cells[1][2] = Field.ShapesOfField[Field.CurId]->YPos;
+				ValuesList->Cells[1][3] = Field.ShapesOfField[Field.CurId]->Text;
 				StartConnect->Enabled = true;
 				Status->Caption = "Object Chosen";
-			   }
 		}
 		else{
-				  ShapeChoice = false;
 				  Status->Caption = "Object not found";
 		}
 	}
@@ -173,8 +164,6 @@ void __fastcall TMainForm::FormMouseUp(TObject *Sender, TMouseButton Button, TSh
 	}
 }
 //---------------------------------------------------------------------------
-
-
 
 
 void __fastcall TMainForm::repaint1Click(TObject *Sender)
@@ -229,6 +218,11 @@ void __fastcall TMainForm::MoveClick(TObject *Sender)
 
 void __fastcall TMainForm::ClearAll1Click(TObject *Sender)
 {
+	Move->Checked = false;
+	SecondChoice = false;
+	ValuesList->Cells[1][1] = "";
+	ValuesList->Cells[1][2] = "";
+	ValuesList->Cells[1][3] = "";
 	Field.ClearAll();
 }
 //---------------------------------------------------------------------------
@@ -265,19 +259,12 @@ void __fastcall TMainForm::DeleteConnectionClick(TObject *Sender)
 void __fastcall TMainForm::FormMouseMove(TObject *Sender, TShiftState Shift, int X,
           int Y)
 {
-
-	if (Move->Checked && Shift.Contains(ssLeft)) {
+	if (Move->Checked && Shift.Contains(ssLeft) && Field.CurId >= 0) {
 		if (ValuesList->Cells[1][1] != "" && ValuesList->Cells[1][2]!= "") {
-			for (int i = 0; i < Field.ShapesOfField.size(); i++) {
-				if(Field.ShapesOfField[i]->Selected == true){
-					Field.ShapesOfField[i]->Move(X,Y);
+					Field.ShapesOfField[Field.CurId]->Move(X,Y);
 					Field.Repaint();
-
 					ValuesList->Cells[1][1] = X;
 					ValuesList->Cells[1][2] = Y;
-					break;
-				}
-			}
 		}
 	}
 }
@@ -286,16 +273,10 @@ void __fastcall TMainForm::FormMouseMove(TObject *Sender, TShiftState Shift, int
 
 void __fastcall TMainForm::ValuesListStringsChange(TObject *Sender)
 {
-	if (ValuesList->Cells[1][1] != "" && ValuesList->Cells[1][2]!= "" && ValuesList->Cells[1][3]!= "") {
-		for (int i = 0; i < Field.ShapesOfField.size(); i++) {
-			if(Field.ShapesOfField[i]->Selected == true){
-
-				Field.ShapesOfField[i]->XPos = ValuesList->Cells[1][1].ToInt();
-				Field.ShapesOfField[i]->YPos = ValuesList->Cells[1][2].ToInt();
-				Field.ShapesOfField[i]->Text = ValuesList->Cells[1][3];
-				break;
-			}
-		}
+	if (ValuesList->Cells[1][1] != "" && ValuesList->Cells[1][2]!= "" && ValuesList->Cells[1][3]!= "" &&
+		ValuesList->Cells[1][1] != "-" && ValuesList->Cells[1][2]!= "-") {
+			Field.ShapesOfField[Field.CurId]->Move(ValuesList->Cells[1][1].ToInt(),ValuesList->Cells[1][2].ToInt());
+			Field.ShapesOfField[Field.CurId]->Text = ValuesList->Cells[1][3];
 	}
 	Field.Repaint();
 }
@@ -309,7 +290,6 @@ void __fastcall TMainForm::FormMouseWheelDown(TObject *Sender, TShiftState Shift
           TPoint &MousePos, bool &Handled)
 {
 	for (int i = 0; i < Field.ShapesOfField.size(); i++) {
-		Field.ShapesOfField[i]->Selected = false;
 		Field.ShapesOfField[i]->Move(Field.ShapesOfField[i]->XPos,Field.ShapesOfField[i]->YPos+10);
 	}
 	ValuesList->Cells[1][1] = "";
@@ -323,7 +303,6 @@ void __fastcall TMainForm::FormMouseWheelUp(TObject *Sender, TShiftState Shift, 
           bool &Handled)
 {
 	for (int i = 0; i < Field.ShapesOfField.size(); i++) {
-		Field.ShapesOfField[i]->Selected = false;
 		Field.ShapesOfField[i]->Move(Field.ShapesOfField[i]->XPos,Field.ShapesOfField[i]->YPos-10);
 	}
 	ValuesList->Cells[1][1] = "";
@@ -335,4 +314,101 @@ void __fastcall TMainForm::FormMouseWheelUp(TObject *Sender, TShiftState Shift, 
 
 
 
+
+void __fastcall TMainForm::Save1Click(TObject *Sender)
+{
+	if (SaveDialog1->Execute()) {
+		TStringList *Pars=new TStringList;
+		for (int i = 0; i < Field.ShapesOfField.size(); i++) {
+			Pars->Add("//--S");
+			Pars->Add(Field.ShapesOfField[i]->Type);
+			Pars->Add(Field.ShapesOfField[i]->XPos);
+			Pars->Add(Field.ShapesOfField[i]->YPos);
+			Pars->Add(Field.ShapesOfField[i]->Text);
+		}
+		for (int i = 0; i < Field.ConnectorsOfField.size(); i++) {
+			Pars->Add("//--C");
+			Pars->Add(Field.ConnectorsOfField[i].StartPoint->X);
+			Pars->Add(Field.ConnectorsOfField[i].StartPoint->Y);
+			Pars->Add(Field.ConnectorsOfField[i].EndPoint->X);
+			Pars->Add(Field.ConnectorsOfField[i].EndPoint->Y);
+		}
+		Pars->SaveToFile(SaveDialog1->FileName);
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::Load1Click(TObject *Sender)
+{
+	TStringList *Pars=new TStringList;
+	if (OpenDialog1->Execute()) {
+	   Pars->LoadFromFile(OpenDialog1->FileName);
+	   Field.ClearAll();
+
+	   for (int i = 0; i < Pars->Count; i++) {
+		if (Pars->Strings[i] == "//--S") {
+				if(Pars->Strings[i+1] == "0"){
+					IOShape *AddAbleObject = new IOShape(Pars->Strings[i+2].ToInt(),Pars->Strings[i+3].ToInt(),Pars->Strings[i+1].ToInt());
+					AddAbleObject->Text = Pars->Strings[i+4];
+					Field.AddShape(AddAbleObject);
+					Field.ShapesOfField[Field.ShapesOfField.size()-1]->DrawObj(AddAbleObject->Type,AddAbleObject->XPos,AddAbleObject->YPos);
+				}
+				else if(Pars->Strings[i+1] == "1"){
+					IFShape *AddAbleObject = new IFShape(Pars->Strings[i+2].ToInt(),Pars->Strings[i+3].ToInt(),Pars->Strings[i+1].ToInt());
+					AddAbleObject->Text = Pars->Strings[i+4];
+					Field.AddShape(AddAbleObject);
+					Field.ShapesOfField[Field.ShapesOfField.size()-1]->DrawObj(AddAbleObject->Type,AddAbleObject->XPos,AddAbleObject->YPos);
+				}
+				else if(Pars->Strings[i+1] == "2"){
+					LogicInS *AddAbleObject = new LogicInS(Pars->Strings[i+2].ToInt(),Pars->Strings[i+3].ToInt(),Pars->Strings[i+1].ToInt());
+					AddAbleObject->Text = Pars->Strings[i+4];
+					Field.AddShape(AddAbleObject);
+					Field.ShapesOfField[Field.ShapesOfField.size()-1]->DrawObj(AddAbleObject->Type,AddAbleObject->XPos,AddAbleObject->YPos);
+				}
+				else if(Pars->Strings[i+1] == "3"){
+					LogicOutS *AddAbleObject = new LogicOutS(Pars->Strings[i+2].ToInt(),Pars->Strings[i+3].ToInt(),Pars->Strings[i+1].ToInt());
+					AddAbleObject->Text = Pars->Strings[i+4];
+					Field.AddShape(AddAbleObject);
+					Field.ShapesOfField[Field.ShapesOfField.size()-1]->DrawObj(AddAbleObject->Type,AddAbleObject->XPos,AddAbleObject->YPos);
+				}
+				else if(Pars->Strings[i+1] == "4"){
+					ComProcS *AddAbleObject = new ComProcS(Pars->Strings[i+2].ToInt(),Pars->Strings[i+3].ToInt(),Pars->Strings[i+1].ToInt());
+					AddAbleObject->Text = Pars->Strings[i+4];
+					Field.AddShape(AddAbleObject);
+					Field.ShapesOfField[Field.ShapesOfField.size()-1]->DrawObj(AddAbleObject->Type,AddAbleObject->XPos,AddAbleObject->YPos);
+				}
+				else if(Pars->Strings[i+1] == "5"){
+					ConnectS *AddAbleObject = new ConnectS(Pars->Strings[i+2].ToInt(),Pars->Strings[i+3].ToInt(),Pars->Strings[i+1].ToInt());
+					AddAbleObject->Text = Pars->Strings[i+4];
+					Field.AddShape(AddAbleObject);
+					Field.ShapesOfField[Field.ShapesOfField.size()-1]->DrawObj(AddAbleObject->Type,AddAbleObject->XPos,AddAbleObject->YPos);
+				}
+				else if(Pars->Strings[i+1] == "6"){
+					SEShape *AddAbleObject = new SEShape(Pars->Strings[i+2].ToInt(),Pars->Strings[i+3].ToInt(),Pars->Strings[i+1].ToInt());
+					AddAbleObject->Text = Pars->Strings[i+4];
+					Field.AddShape(AddAbleObject);
+					Field.ShapesOfField[Field.ShapesOfField.size()-1]->DrawObj(AddAbleObject->Type,AddAbleObject->XPos,AddAbleObject->YPos);
+				}
+				else if(Pars->Strings[i+1] == "7"){
+					CycleShape *AddAbleObject = new CycleShape(Pars->Strings[i+2].ToInt(),Pars->Strings[i+3].ToInt(),Pars->Strings[i+1].ToInt());
+					AddAbleObject->Text = Pars->Strings[i+4];
+					Field.AddShape(AddAbleObject);
+					Field.ShapesOfField[Field.ShapesOfField.size()-1]->DrawObj(AddAbleObject->Type,AddAbleObject->XPos,AddAbleObject->YPos);
+				}
+				else if(Pars->Strings[i+1] == "8"){
+					PreProcShape *AddAbleObject = new PreProcShape(Pars->Strings[i+2].ToInt(),Pars->Strings[i+3].ToInt(),Pars->Strings[i+1].ToInt());
+                    AddAbleObject->Text = Pars->Strings[i+4];
+					Field.AddShape(AddAbleObject);
+					Field.ShapesOfField[Field.ShapesOfField.size()-1]->DrawObj(AddAbleObject->Type,AddAbleObject->XPos,AddAbleObject->YPos);
+				}
+			}
+		if (Pars->Strings[i] == "//--C") {
+			AddConnect.StartPoint = Field.ChooseOPoint(Pars->Strings[i+1].ToInt(),Pars->Strings[i+2].ToInt());
+			AddConnect.EndPoint = Field.ChooseIPoint(Pars->Strings[i+3].ToInt(),Pars->Strings[i+4].ToInt());
+			Field.AddConnector(AddConnect);
+		}
+	   }
+	}
+}
+//---------------------------------------------------------------------------
 

@@ -2,10 +2,9 @@ object MainForm: TMainForm
   Left = 0
   Top = 0
   Caption = 'ShemaDrawer'
-  ClientHeight = 456
+  ClientHeight = 527
   ClientWidth = 1057
   Color = clBtnFace
-  DoubleBuffered = True
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -25,14 +24,14 @@ object MainForm: TMainForm
     Left = 0
     Top = 0
     Width = 260
-    Height = 456
-    VertScrollBar.Position = 871
+    Height = 527
+    VertScrollBar.Position = 111
     Align = alLeft
     TabOrder = 0
     object Image3: TImage
       Tag = 4
       Left = 0
-      Top = -589
+      Top = 171
       Width = 239
       Height = 153
       Hint = #1041#1083#1086#1082' '#1082#1086#1084#1072#1085#1076#1099', '#1087#1088#1086#1094#1077#1089#1089#1072', '#1076#1077#1081#1089#1090#1074#1080#1103
@@ -82,7 +81,7 @@ object MainForm: TMainForm
     object Image4: TImage
       Tag = 5
       Left = 0
-      Top = -33
+      Top = 727
       Width = 239
       Height = 176
       Hint = #1057#1086#1077#1076#1080#1085#1080#1090#1077#1083#1100
@@ -208,7 +207,7 @@ object MainForm: TMainForm
     object Image5: TImage
       Tag = 6
       Left = 0
-      Top = -871
+      Top = -111
       Width = 239
       Height = 132
       Hint = #1058#1077#1088#1084#1080#1085#1072#1090#1086#1088' '#1080#1083#1080' '#1073#1083#1086#1082' '#1085#1072#1095#1072#1083#1086'-'#1082#1086#1085#1077#1094
@@ -304,7 +303,7 @@ object MainForm: TMainForm
     object Image6: TImage
       Tag = 8
       Left = 0
-      Top = 298
+      Top = 1058
       Width = 239
       Height = 154
       Hint = #1055#1088#1077#1076#1086#1087#1088#1077#1076#1077#1083#1077#1085#1085#1099#1081' '#1087#1088#1086#1094#1077#1089#1089
@@ -355,7 +354,7 @@ object MainForm: TMainForm
     object Image7: TImage
       Tag = 3
       Left = 0
-      Top = -158
+      Top = 602
       Width = 239
       Height = 125
       Hint = #1041#1083#1086#1082' '#1083#1086#1075#1080#1095#1077#1089#1082#1086#1075#1086' '#1091#1089#1083#1086#1074#1080#1103
@@ -407,7 +406,7 @@ object MainForm: TMainForm
     end
     object Image8: TImage
       Left = 0
-      Top = -739
+      Top = 21
       Width = 239
       Height = 150
       Hint = #1041#1083#1086#1082' '#1074#1074#1086#1076#1072'-'#1074#1099#1074#1086#1076#1072' '#1076#1072#1085#1085#1099#1093
@@ -507,7 +506,7 @@ object MainForm: TMainForm
     object Image1: TImage
       Tag = 7
       Left = 0
-      Top = 143
+      Top = 903
       Width = 239
       Height = 155
       Hint = #1041#1083#1086#1082' '#1094#1080#1082#1083#1072' '#1089#1086' '#1089#1095#1077#1090#1095#1080#1082#1086#1084
@@ -624,7 +623,7 @@ object MainForm: TMainForm
     object Image2: TImage
       Tag = 1
       Left = 0
-      Top = -436
+      Top = 324
       Width = 239
       Height = 146
       Hint = #1041#1083#1086#1082' '#1083#1086#1075#1080#1095#1077#1089#1082#1086#1075#1086' '#1091#1089#1083#1086#1074#1080#1103
@@ -727,7 +726,7 @@ object MainForm: TMainForm
     object Image9: TImage
       Tag = 2
       Left = 0
-      Top = -290
+      Top = 470
       Width = 239
       Height = 132
       Hint = #1041#1083#1086#1082' '#1083#1086#1075#1080#1095#1077#1089#1082#1086#1075#1086' '#1091#1089#1083#1086#1074#1080#1103
@@ -781,7 +780,7 @@ object MainForm: TMainForm
     Left = 832
     Top = 0
     Width = 225
-    Height = 456
+    Height = 527
     Align = alRight
     TabOrder = 1
     object Status: TLabel
@@ -880,7 +879,7 @@ object MainForm: TMainForm
   end
   object MainMenu1: TMainMenu
     Left = 296
-    Top = 392
+    Top = 472
     object repaint1: TMenuItem
       Caption = 'Repaint'
       OnClick = repaint1Click
@@ -889,5 +888,21 @@ object MainForm: TMainForm
       Caption = 'Clear All'
       OnClick = ClearAll1Click
     end
+    object Save1: TMenuItem
+      Caption = 'Save'
+      OnClick = Save1Click
+    end
+    object Load1: TMenuItem
+      Caption = 'Load'
+      OnClick = Load1Click
+    end
+  end
+  object SaveDialog1: TSaveDialog
+    Left = 440
+    Top = 472
+  end
+  object OpenDialog1: TOpenDialog
+    Left = 368
+    Top = 472
   end
 end

@@ -17,12 +17,15 @@ public:
 	std::vector<TPoint> GridCord;
 	std::vector<ShapeS*> ShapesOfField;
 	std::vector<Connectors> ConnectorsOfField;
+    int CurId;
 
-	//1 метод для точек входа а 2 метод для точек выхода,1 клик берет ток точеи выхода а 2 клик толко точки входа
+	WorkingGrid(){
+    	CurId = -1;
+	}
 
-	ShapeS* Choose(int,int);
-	TPoint* ChooseOPoint(int,int);//output точки
-	TPoint* ChooseIPoint(int,int);//input точки
+	void Choose(int,int);
+	TPoint* ChooseOPoint(int,int);
+	TPoint* ChooseIPoint(int,int);
 	void GenerateGrid(int X,int Y,int W,int H);
 	void DeleteElements();
 	void DeleteСonnectors(int,int);

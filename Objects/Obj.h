@@ -22,8 +22,6 @@ public:
 	int Height;
 	int Type;
 
-	void Show();
-	void Hide();
 	virtual void DrawObj(int Value,int X,int Y);
 };
 
@@ -31,9 +29,6 @@ public:
 class ShapeS : public Obj
 {
 public:
-	short int EnterExitAmount;
-	bool Selected;
-	short int Type;
 	TColor BorderCl;
 	TColor FillCl;
 	std::vector<TPoint*> EnterPoints;
@@ -49,7 +44,6 @@ public:
 		YPos = Y;
 		Type = Tip;
 		Text = "Text";
-		Selected = false;
 	}
 };
 //--------------------------------------------------------------------------

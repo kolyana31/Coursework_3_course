@@ -29,20 +29,16 @@ void WorkingGrid::Repaint(){
 	}
 }
 
-ShapeS* WorkingGrid::Choose(int XChoice, int YChoice){
-	for (int i = 0; i < ShapesOfField.size(); i++) {
-		ShapesOfField[i]->Selected = false;
-	}
+void WorkingGrid::Choose(int XChoice, int YChoice){
+	CurId = -1;
 	for (int i = ShapesOfField.size()-1; i >= 0; i--) {
 		if (XChoice > ShapesOfField[i]->XPos && XChoice < ShapesOfField[i]->Wight &&
 			YChoice > ShapesOfField[i]->YPos && YChoice < ShapesOfField[i]->Height)
 		{
-			ShapesOfField[i]->Selected = true;
-			return ShapesOfField[i];
+			CurId = i;
+			break;
 		}
 	}
-	ShapeS* Nothing = new ShapeS(0,0,-1);
-	return Nothing;
 }
 
 TPoint* WorkingGrid::ChooseOPoint(int XChoice, int YChoice){
@@ -134,42 +130,39 @@ TPoint* WorkingGrid::ChooseIPoint(int XChoice, int YChoice){
 }
 
 void WorkingGrid::DeleteElements(){
-	for (int i = 0; i < ShapesOfField.size(); i++) {
-		if(ShapesOfField[i]->Selected){
-			for (int j = 0; j < ShapesOfField[i]->EnterPoints.size(); j++) {
+			for (int j = 0; j < ShapesOfField[CurId]->EnterPoints.size(); j++) {
 				for (int k = 0; k < ConnectorsOfField.size(); k++) {
-					if (ShapesOfField[i]->EnterPoints[j]->X == ConnectorsOfField[k].EndPoint->X &&
-						ShapesOfField[i]->EnterPoints[j]->Y == ConnectorsOfField[k].EndPoint->Y)
+					if (ShapesOfField[CurId]->EnterPoints[j]->X == ConnectorsOfField[k].EndPoint->X &&
+						ShapesOfField[CurId]->EnterPoints[j]->Y == ConnectorsOfField[k].EndPoint->Y)
+					{
+						ConnectorsOfField.erase(ConnectorsOfField.begin()+k);
+					}
+				}
+
+			}
+
+			for (int j = 0; j < ShapesOfField[CurId]->ExitPoints.size(); j++) {
+				for (int k = 0; k < ConnectorsOfField.size(); k++) {
+					if (ShapesOfField[CurId]->ExitPoints[j]->X == ConnectorsOfField[k].StartPoint->X &&
+						ShapesOfField[CurId]->ExitPoints[j]->Y == ConnectorsOfField[k].StartPoint->Y)
 					{
                     	ConnectorsOfField.erase(ConnectorsOfField.begin()+k);
 					}
 				}
 
 			}
-
-			for (int j = 0; j < ShapesOfField[i]->ExitPoints.size(); j++) {
-				for (int k = 0; k < ConnectorsOfField.size(); k++) {
-					if (ShapesOfField[i]->ExitPoints[j]->X == ConnectorsOfField[k].StartPoint->X &&
-						ShapesOfField[i]->ExitPoints[j]->Y == ConnectorsOfField[k].StartPoint->Y)
-					{
-                    	ConnectorsOfField.erase(ConnectorsOfField.begin()+k);
-					}
-				}
-
-			}
-			ShapesOfField.erase(ShapesOfField.begin()+i);
-		}
-	}
+			ShapesOfField.erase(ShapesOfField.begin()+CurId);
+			CurId = -1;
 	Repaint();
 }
 
 void WorkingGrid::DeleteÑonnectors(int XChoice, int YChoice){
 	for (int i = ConnectorsOfField.size()-1; i >= 0; i--) {
 			if (
-				((XChoice > ConnectorsOfField[i].StartPoint->X && XChoice < ConnectorsOfField[i].EndPoint->X &&
+				((XChoice > ConnectorsOfField[i].StartPoint->X-5 && XChoice < ConnectorsOfField[i].EndPoint->X+5 &&
 				 (YChoice > ConnectorsOfField[i].StartPoint->Y && YChoice < ConnectorsOfField[i].EndPoint->Y ||
 				  YChoice < ConnectorsOfField[i].StartPoint->Y && YChoice > ConnectorsOfField[i].EndPoint->Y)) ||
-				((XChoice < ConnectorsOfField[i].StartPoint->X && XChoice > ConnectorsOfField[i].EndPoint->X &&
+				((XChoice < ConnectorsOfField[i].StartPoint->X+5 && XChoice > ConnectorsOfField[i].EndPoint->X-5 &&
 				 (YChoice > ConnectorsOfField[i].StartPoint->Y && YChoice < ConnectorsOfField[i].EndPoint->Y ||
 				 YChoice < ConnectorsOfField[i].StartPoint->Y && YChoice > ConnectorsOfField[i].EndPoint->Y)))
 				 )
@@ -215,6 +208,7 @@ void WorkingGrid::GridSetting(){
 void WorkingGrid::ClearAll(){
    ShapesOfField.clear();
    ConnectorsOfField.clear();
+   CurId = -1;
    Repaint();
 }
 

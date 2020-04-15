@@ -1,9 +1,6 @@
 #include "Obj.h"
 
 
-void Obj::Show(){};
-
-void Obj::Hide(){};
 
 void Obj::DrawObj(int Value,int X,int Y){};
 
@@ -29,10 +26,10 @@ void IOShape::DrawObj(int Type,int X,int Y){
 
 	if(Type == 0 || (Type >=2 && Type<=6) || Type == 8){
 		Value->X = (X+Wight)/2;
-		Value->Y = Y;
+		Value->Y = Y+2;
 		EnterPoints.push_back(Value);
 		Value2->X = (X+Wight)/2;
-		Value2->Y = Height;
+		Value2->Y = Height-2;
 		ExitPoints.push_back(Value2);
 	}
 };
@@ -61,14 +58,14 @@ void IFShape::DrawObj(int Type,int X,int Y){
 	device->FloodFill((X+Wight)/2,(Y+Height)/2,16777215,0);
 	device->FloodFill(X+10,(Y+Height)/2,16777215,0);
 	device->TextRect(Rect(X+40,Y+25,Wight-40,Height-25),X+40,Y+30,Text);
-	Value->X = (X+Wight)/2;
-	Value->Y = Y;
 
+	Value->X = (X+Wight)/2;
+	Value->Y = Y+2;
 	EnterPoints.push_back(Value);
-	Value2->X = X;
-	Value2->Y = (Y+Height)/2;
+	Value2->X = X+2;
+	Value2->Y = (Y+Height)/2 ;
 	ExitPoints.push_back(Value2);
-	Value3->X = Wight;
+	Value3->X = Wight-2;
 	Value3->Y = (Y+Height)/2;
 	ExitPoints.push_back(Value3);
 }
@@ -97,10 +94,10 @@ void LogicInS::DrawObj(int Type,int X,int Y){
 
 	if(Type == 0 || (Type >=2 && Type<=6) || Type == 8){
 		Value->X = (X+Wight)/2;
-		Value->Y = Y;
+		Value->Y = Y+2;
 		EnterPoints.push_back(Value);
 		Value2->X = (X+Wight)/2;
-		Value2->Y = Height;
+		Value2->Y = Height-2;
 		ExitPoints.push_back(Value2);
 	}
 }
@@ -129,10 +126,10 @@ void LogicOutS::DrawObj(int Type,int X,int Y){
 
 	if(Type == 0 || (Type >=2 && Type<=6) || Type == 8){
 		Value->X = (X+Wight)/2;
-		Value->Y = Y;
+		Value->Y = Y+2;
 		EnterPoints.push_back(Value);
 		Value2->X = (X+Wight)/2;
-		Value2->Y = Height;
+		Value2->Y = Height-2;
 		ExitPoints.push_back(Value2);
 	}
 }
@@ -153,10 +150,10 @@ void ComProcS::DrawObj(int Type,int X,int Y){
 
 	if(Type == 0 || (Type >=2 && Type<=6) || Type == 8){
 		Value->X = (X+Wight)/2;
-		Value->Y = Y;
+		Value->Y = Y+2;
 		EnterPoints.push_back(Value);
 		Value2->X = (X+Wight)/2;
-		Value2->Y = Height;
+		Value2->Y = Height-2;
 		ExitPoints.push_back(Value2);
 	}
 }
@@ -177,10 +174,10 @@ void ConnectS::DrawObj(int Type,int X,int Y){
 
 	if(Type == 0 || (Type >=2 && Type<=6) || Type == 8){
 		Value->X = (X+Wight)/2;
-		Value->Y = Y;
+		Value->Y = Y+2;
 		EnterPoints.push_back(Value);
 		Value2->X = (X+Wight)/2;
-		Value2->Y = Height;
+		Value2->Y = Height-2;
 		ExitPoints.push_back(Value2);
 	}
 }
@@ -201,10 +198,10 @@ void SEShape::DrawObj(int Type,int X,int Y){
 
    	if(Type == 0 || (Type >=2 && Type<=6) || Type == 8){
 		Value->X = (X+Wight)/2;
-		Value->Y = Y;
+		Value->Y = Y+2;
 		EnterPoints.push_back(Value);
 		Value2->X = (X+Wight)/2;
-		Value2->Y = Height;
+		Value2->Y = Height-2;
 		ExitPoints.push_back(Value2);
 	}
 }
@@ -234,16 +231,16 @@ void CycleShape::DrawObj(int Type,int X,int Y){
 	device->TextRect(Rect(X+15,Y+10,Wight-15,Height-10),X+15,Y+10,Text);
 
 	Value->X = (X+Wight)/2;
-	Value->Y = Y;
+	Value->Y = Y+2;
 	EnterPoints.push_back(Value);
-	Value2->X = X;
+	Value2->X = X+2;
 	Value2->Y = (Y+Height)/2;
 	EnterPoints.push_back(Value2);
-	Value3->X = Wight;
+	Value3->X = Wight-2;
 	Value3->Y = (Y+Height)/2;
 	ExitPoints.push_back(Value3);
 	Value4->X = (X+Wight)/2;
-	Value4->Y = Height;
+	Value4->Y = Height-2;
 	ExitPoints.push_back(Value4);
 }
 
@@ -269,10 +266,10 @@ void PreProcShape::DrawObj(int Type,int X,int Y){
 
 	if(Type == 0 || (Type >=2 && Type<=6) || Type == 8){
 		Value->X = (X+Wight)/2;
-		Value->Y = Y;
+		Value->Y = Y+2;
 		EnterPoints.push_back(Value);
 		Value2->X = (X+Wight)/2;
-		Value2->Y = Height;
+		Value2->Y = Height-2;
 		ExitPoints.push_back(Value2);
 	}
 }
